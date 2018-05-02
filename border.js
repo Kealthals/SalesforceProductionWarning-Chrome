@@ -1,5 +1,6 @@
 "use strict";
 if (isProduction(window.location.host)) {
+	console.log("isProduction");
 	chrome.storage.sync.get(['urls'], function (result) {
 		onGot(result);
 	});
@@ -9,9 +10,9 @@ function onError(error) {
 }
 
 function onGot(item) {
-
+	console.log("onGot");
 	if (item.urls == undefined || item.urls == null || JSON.stringify(item) === "{}") {
-		addBorder();
+		setBorder("", window.location.host.substring(0, window.location.host.indexOf(".")));
 
 	} else {
 		var flg = false;
@@ -32,6 +33,7 @@ function onGot(item) {
 }
 
 function setBorder(color, pattern) {
+	console.log("setBorder");
 	if (pattern != "" &&
 		(window.location.host.substring(0, window.location.host.indexOf(".")) == pattern
 			|| window.location.host.substring(0, window.location.host.indexOf("--")) == pattern)) {
@@ -92,8 +94,9 @@ function addBorder(type, color) {
 
 }
 function isProduction(s) {
+	console.log("isProduction");
 	//var regu =/https:\/\/.*cs[0-9]{1,2}\.(my\.)*salesforce\.com/g;
-	var regu = /(login\.|(ap|na|eu)[0-9]{1,3}\.|.*[^(cs)][^0-9]{1,3}\.(my|lightning)\.)(salesforce|(visual\.|)force)\.com/g;
+	var regu = /((login|(ap|na|eu)[0-9]{1,3}|.*[^(cs)][^0-9]{1,3})\.lightning\.force\.com|(login\.|(ap|na|eu)[0-9]{1,3}\.|.*[^(cs)][^0-9]{1,3}\.my\.)(salesforce|visual\.force)\.com)/g;
 	var re = new RegExp(regu);
 	if (re.test(s)) {
 		return true;
