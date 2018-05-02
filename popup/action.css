@@ -1,0 +1,25 @@
+html, body {
+  width: 250px;
+  background-color: #c9ddff;
+}
+
+button {
+  text-align: center;
+  cursor: pointer;
+}
+
+.reset {
+  background-color: #FBFBC9;
+}
+
+button:hover {
+  background-color: #EAEA9D;
+}
+
+span {
+	width: 50px;
+}
+
+.pattern {
+  width: 230px;
+}
