@@ -1,22 +1,29 @@
 <html>
+
 <head>
 	<meta charset="utf-8">
+	<link rel="stylesheet" href="options.css" />
 </head>
+
 <body>
+<main>
+	<header><div>Salesforce Prodution Warning</div></header>
 	<form>
-		
+
 		<table>
 			<tr>
 				<td>Custom Domain</td>
 				<td>Color</td>
 			</tr>
 			<tr>
-				<td><input type="hidden" id="p0" value="------"/>
-					<input type="text" readonly="readonly" style="background-color:grey;" value="--Default--"/></td>
+				<td>
+					<input type="hidden" id="p0" value="------" />
+					<input type="text" class="pattern" readonly="readonly" style="background-color:grey;" value="--Default--" />
+				</td>
 				<td>
 					<select id="c0">
 						<option value="">-None-</option>
-						<option value="Red" selected style="background:red;">Red</option>
+						<option value="Red" selected class="option-red" style="background:red;">Red</option>
 						<option value="Orange" style="background:Orange;">Orange</option>
 						<option value="Yellow" style="background:Yellow">Yellow</option>
 						<option value="Green" style="background:Green">Green</option>
@@ -27,7 +34,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td><input type="text" id="p1"/></td>
+				<td>
+					<input type="text" class="pattern" id="p1" />
+				</td>
 				<td>
 					<select id="c1">
 						<option value="">-None-</option>
@@ -42,7 +51,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td><input type="text" id="p2"/></td>
+				<td>
+					<input type="text" class="pattern" id="p2" />
+				</td>
 				<td>
 					<select id="c2">
 						<option value="">-None-</option>
@@ -57,7 +68,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td><input type="text" id="p3"/></td>
+				<td>
+					<input type="text" class="pattern" id="p3" />
+				</td>
 				<td>
 					<select id="c3">
 						<option value="">-None-</option>
@@ -72,7 +85,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td><input type="text" id="p4"/></td>
+				<td>
+					<input type="text" class="pattern" id="p4" />
+				</td>
 				<td>
 					<select id="c4">
 						<option value="">-None-</option>
@@ -85,9 +100,11 @@
 						<option value="Purple" style="background:Purple">Purple</option>
 					</select>
 				</td>
-			</tr>			
+			</tr>
 			<tr>
-				<td><input type="text" id="p5"/></td>
+				<td>
+					<input type="text" class="pattern" id="p5" />
+				</td>
 				<td>
 					<select id="c5">
 						<option value="">-None-</option>
@@ -102,7 +119,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td><input type="text" id="p6"/></td>
+				<td>
+					<input type="text" class="pattern" id="p6" />
+				</td>
 				<td>
 					<select id="c6">
 						<option value="">-None-</option>
@@ -128,11 +147,11 @@ HOW TO USE:
 3. You could specify different production org's color by filling in Custom Domain in the textbox.
    For Example. My org's url is  https://kealsalas.my.salesforce.com/home/home.jsp
    Fill 'kealsalas' in the textbox, then select a color.
-4. Colorpicker and more row supporting is on the way.
-	</pre>
+4. Colorpicker and more rows' supporting are coming soon.
+		</pre>
 	</div>
 	<script src="options.js"></script>
-
+</main>
 </body>
 
 </html>

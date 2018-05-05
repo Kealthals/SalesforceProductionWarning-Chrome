@@ -5,7 +5,8 @@ function onError(error) {
 
 function setCurrentChoice(result) {
 	if(result == undefined || result == null || JSON.stringify(result) === "{}") {
-		document.querySelector("#panel").innerHTML = "<div style='border: 1px solid black;margin: 1px; background-color:white;'>No patterns.</div>";
+		//document.querySelector("#panel").innerHTML = "<div style='border: 1px solid black;margin: 1px; background-color:white;'>No patterns.</div>";
+		document.querySelector("#noList").classList.toggle("disabled");
 	} else {
 		var records = result.urls;
 		records.forEach(function(element) {
@@ -20,14 +21,14 @@ function setCurrentChoice(result) {
 				color = "white";
 			}
 			document.querySelector("#p" + element.no).innerHTML = "<strong>" + pattern + "</strong>";
-			document.querySelector("#p" + element.no).style = "border: 1px solid black;margin: 1px; background-color:" + color;
+			document.querySelector("#p" + element.no).style = "margin: 1px; background:linear-gradient(to left, " + color + ", #f8f6f2);"
 		});
 	}
 }
 var getting =  chrome.storage.sync.get(['urls'], function(result) {
           setCurrentChoice(result);
         });
-document.querySelector("#EditBtn").addEventListener("click", JumpOptions);
+document.querySelector("#options").addEventListener("click", JumpOptions);
 
 function JumpOptions(e) {
 	e.preventDefault();
@@ -40,4 +41,5 @@ function JumpOptions(e) {
 	}
 
 	chrome.runtime.openOptionsPage(onOpened);
+	window.close();
 }
