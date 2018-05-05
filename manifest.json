@@ -7,7 +7,9 @@
   "description": "Add a border on Screen to notify the environment that be operating is Production!",
 
   "icons": {
-    "48": "icons/favicon.png"
+    "16": "icons/favicon.png",
+    "48": "icons/favicon48.png",
+    "128": "icons/favicon128.png"
   },
 
   "content_scripts": [
