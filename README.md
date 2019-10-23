@@ -8,6 +8,10 @@ https://chrome.google.com/webstore/detail/salesforce-production-war/ifmhcncdlalf
 
 Help Salesforce Developers and Admins to distinguish Sandbox and Production easily by add a red border on page.
 
+Release Note v1.5.3
+Fix border position and coloring.
+*Thanks to @ScottWalkerAU for update this version.
+
 Release Note v1.5.2
 Fix some bugs.
 
