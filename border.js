@@ -84,12 +84,15 @@ function addBorder(type, color, defaultColor) {
     addBar("SalesforceProductionWarningRightBar", args + ";width: 0px;height:" + height + "px;top:5px;left:" + width + "px;");
     addBar("SalesforceProductionWarningButtomBar", args + ";width:" + width + "px;height:0px;top:" + height + "px;left:0px;");
 
+    setIcon(color);
+}
+
+function setIcon(color) {
     let elements = document.querySelectorAll('head link[rel*="icon"]');
     if(elements.length > 0) {
         Array.prototype.forEach.call(elements, function (node) {
             node.parentNode.removeChild(node);
         });
-        console.log('color', color);
         
         let iconHerf = "";
         if(color === 'red' || color === 'Red') {
