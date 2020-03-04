@@ -13,7 +13,8 @@
             "matches": [
                 "*://*.salesforce.com/*",
                 "*://*.visual.force.com/*",
-                "*://*.lightning.force.com/*"
+                "*://*.lightning.force.com/*",
+                "*://*.visualforce.com/*"
             ],
             "js": [
                 "border.js"

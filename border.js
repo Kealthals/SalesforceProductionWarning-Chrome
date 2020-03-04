@@ -39,6 +39,7 @@ function onGot(item) {
 function setBorder(color, pattern, defaultColor, sandbox, isTabIconOn) {
     if (pattern != "" &&
         (window.location.host.substring(0, window.location.host.indexOf(".")) == pattern
+            || window.location.host.substring(0, window.location.host.indexOf("."))  == pattern + "--c"
             || window.location.host.substring(0, window.location.host.indexOf("--")) == pattern)) {
         var type = "classic";
         if (window.location.host.indexOf(".lightning.") > 0) {
@@ -126,6 +127,13 @@ function setIcon(color) {
                 document.getElementsByTagName('head')[0].appendChild(iconLink);
             }
         });
+    } else {
+        let iconLink = document.createElement('link');
+        iconLink.type = 'image/x-icon';
+        iconLink.rel  = 'icon';
+        iconLink.href = iconHerf;
+        
+        document.getElementsByTagName('head')[0].appendChild(iconLink);
     }
 }
 
@@ -137,7 +145,7 @@ function addBar(id, style) {
 }
 
 function isProduction(s) {
-    var regu = /^(?!.*cs\d).(?!.*--).*\.lightning\.force\.com|(login\.|(ap|na|eu)[0-9]{1,3}\.|.*[^(cs)][^0-9]{1,3}\.my\.)(salesforce|visual\.force)\.com$/g;
+    var regu = /^(?!.*cs\d).(?!.*--).*\.lightning\.force\.com|(login\.|(ap|na|eu)[0-9]{1,3}\.|.*[^(cs)][^0-9]{1,3}\.my\.)(salesforce|visual\.force|visualforce)\.com$/g;
     var re = new RegExp(regu);
     if (re.test(s)) {
         return true;
@@ -147,7 +155,7 @@ function isProduction(s) {
 }
 
 function isSalesforce(s) {
-    var regu = /^(.*\.lightning\.force\.com|.*[\.my]?\.(salesforce|visual\.force)\.com)$/g;
+    var regu = /^(.*\.lightning\.force\.com|.*[\.my]?\.(salesforce|visual\.force|visualforce)\.com)$/g;
     var re = new RegExp(regu);
     if (re.test(s)) {
         return true;
