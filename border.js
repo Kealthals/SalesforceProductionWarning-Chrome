@@ -1,6 +1,6 @@
 "use strict";
 if (isSalesforce(window.location.host)) {
-    chrome.storage.sync.get(['urls', 'tabIcon'], function (result) {
+    chrome.storage.sync.get(['urls', 'tabIcon', 'overlay'], function (result) {
         onGot(result);
     });
 }
@@ -9,14 +9,10 @@ function onError(error) {
 }
 
 function onGot(item) {
-    let isTabIconOn = false;
-    if(item.tabIcon !== undefined && item.tabIcon !== "" && item.tabIcon !== null) {
-        if(item.tabIcon === "ON") {
-            isTabIconOn = true;
-        }
-    }
+    let isTabIconOn = item?.tabIcon === "ON";
+    let isOverlayOn = item?.overlay === "ON";
     if (item.urls == undefined || item.urls == null || JSON.stringify(item) === "{}") {
-        setBorder("", window.location.host.substring(0, window.location.host.indexOf(".")), "", false, isTabIconOn);
+        setBorder("", window.location.host.substring(0, window.location.host.indexOf(".")), "", false, isTabIconOn, isOverlayOn);
 
     } else {
         var flg = false;
@@ -24,19 +20,19 @@ function onGot(item) {
         var records = item.urls;
 
         records.forEach(function (element) {
-            if (setBorder(element.color, element.pattern, records[0].color, element.sandbox, isTabIconOn)) {
+            if (setBorder(element.color, element.pattern, records[0].color, element.sandbox, isTabIconOn, isOverlayOn)) {
                 flg = true;
             }
         });
         if (flg == false) {
-            setBorder(records[0].color, window.location.host.substring(0, window.location.host.indexOf(".")), "", false, isTabIconOn);
+            setBorder(records[0].color, window.location.host.substring(0, window.location.host.indexOf(".")), "", false, isTabIconOn, isOverlayOn);
         }
     }
     window.onresize = function () { setBorder(onGot(item)); };
 
 }
 
-function setBorder(color, pattern, defaultColor, sandbox, isTabIconOn) {
+function setBorder(color, pattern, defaultColor, sandbox, isTabIconOn, isOverlayOn) {
     if (pattern != "" &&
         (window.location.host.substring(0, window.location.host.indexOf(".")) == pattern
             || window.location.host.substring(0, window.location.host.indexOf("."))  == pattern + "--c"
@@ -47,21 +43,21 @@ function setBorder(color, pattern, defaultColor, sandbox, isTabIconOn) {
         }
         console.log("sandbox", sandbox);
         if (isProduction(window.location.host) || sandbox === true) {
-            addBorder(type, color, defaultColor, isTabIconOn);
+            color = color ? color : defaultColor ? defaultColor : "red";
+            addBorder(type, color);
+            if(isTabIconOn) {
+                setIcon(color);
+            }
+            if (isOverlayOn) {
+                addOverlay(color);
+            }
         }
         return true;
     }
     return false;
 }
 
-function addBorder(type, color, defaultColor, isTabIconOn) {
-    if (color === "" || color === undefined || color === null) {
-        if (defaultColor === "" || defaultColor === undefined || defaultColor === null) {
-            color = "red";
-        } else {
-            color = defaultColor;
-        }
-    }
+function addBorder(type, color) {
     if (document.querySelector("#SalesforceProductionWarningLeftBar") != null) {
         var leftBarObj = document.querySelector("#SalesforceProductionWarningLeftBar");
         leftBarObj.parentNode.removeChild(leftBarObj);
@@ -90,9 +86,53 @@ function addBorder(type, color, defaultColor, isTabIconOn) {
     addBar("SalesforceProductionWarningTopBar", args + ";width:" + width + "px;height:0px;top:0px;left:5px;");
     addBar("SalesforceProductionWarningRightBar", args + ";width: 0px;height:" + height + "px;top:5px;left:" + width + "px;");
     addBar("SalesforceProductionWarningButtomBar", args + ";width:" + width + "px;height:0px;top:" + height + "px;left:0px;");
-    if(isTabIconOn) {
-        setIcon(color);
+}
+
+function addOverlay(color) {
+    const id = 'SalesforceProductionWarningOverlay';
+    if (document.querySelector(`#${id}`)) {
+        return;
     }
+
+    // default red
+    const alpha = 0.05
+    let rgba = `rgba(255,0,0,${alpha})`;
+    if(color === 'Aqua') {
+        rgba = `rgba(0,255,255,${alpha})`;
+    } else if(color === "Blue") {
+        rgba = `rgba(0,0,255,${alpha})`;
+    } else if(color === "Green") {
+        rgba = `rgba(0,128,0,${alpha})`;
+    } else if(color === "Orange") {
+        rgba = `rgba(255,168,0,${alpha})`;
+    } else if(color === "Purple") { 
+        rgba = `rgba(128,0,128,${alpha})`;
+    } else if(color === "Yellow") { 
+        rgba = `rgba(255,255,0,${alpha})`;
+    }
+
+    var overlay = document.createElement("DIV");
+    overlay.id = id;
+    overlay.style = `
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0.05) 10px,
+        ${rgba} 10px,
+        ${rgba} 20px
+    );
+    z-index: 2;
+    pointer-events: none; 
+    `;
+    document.body.appendChild(overlay);
 }
 
 function setIcon(color) {
