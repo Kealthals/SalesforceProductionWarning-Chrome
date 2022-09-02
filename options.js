@@ -14,6 +14,7 @@ function saveOptions(e) {
         records.urls.push(record);
     }
     records.tabIcon = document.querySelector("#tabIcon").value;
+    records.overlay = document.querySelector("#overlay").value;
     chrome.storage.sync.set(records);
 }
 
@@ -32,6 +33,7 @@ function restoreOptions() {
                 records.urls.push(record);
             }
             records.tabIcon = document.querySelector("#tabIcon").value;
+            records.overlay = document.querySelector("#overlay").value;
             chrome.storage.sync.set(records);
         } else {
             var records = result.urls;
@@ -43,6 +45,9 @@ function restoreOptions() {
             if(result.tabIcon !== undefined && result.tabIcon !== "") {
                 document.querySelector("#tabIcon").value = result.tabIcon;
             }
+            if(result.overlay !== undefined && result.overlay !== "") {
+                document.querySelector("#overlay").value = result.overlay;
+            }
         }
     }
 
@@ -50,7 +55,7 @@ function restoreOptions() {
         console.log(`Error: ${error}`);
     }
 
-    chrome.storage.sync.get(['urls', 'tabIcon'], function (result) {
+    chrome.storage.sync.get(['urls', 'tabIcon', 'overlay'], function (result) {
         setCurrentChoice(result);
     });
 }
@@ -63,6 +68,7 @@ function resetForm() {
         document.querySelector("#s" + i).checked = false;
     }
     document.querySelector("#tabIcon").value = "OFF";
+    document.querySelector("#overlay").value = "OFF";
     setButtonUnSave();
 }
 
@@ -75,6 +81,7 @@ for (var i = 0; i < 7; i++) {
     document.querySelector("#s" + i).addEventListener("change",setButtonUnSave);
 }
 document.querySelector("#tabIcon").addEventListener("change", setButtonUnSave);
+document.querySelector("#overlay").addEventListener("change", setButtonUnSave);
 
 function setButtonUnSave() {
     document.querySelector("#savebtn").disabled = false;
